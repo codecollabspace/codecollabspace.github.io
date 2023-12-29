@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page List</title>
+</head>
+<body>
+    <h1>Available pages</h1>
+    <ul id="pageList">
+        <!-- BEGIN: Dynamically generate list of pages -->
+        <script>
+            // Get the hostname
+            var hostname = window.location.origin;
+
+            // Fetch the list of pages from the 'pages' directory
+            fetch(hostname + '/pages/')
+                .then(response => response.text())
+                .then(data => {
+                    // Parse the HTML response
+                    var parser = new DOMParser();
+                    var htmlDoc = parser.parseFromString(data, "text/html");
+
+                    // Get all the links on the page
+                    var links = htmlDoc.getElementsByTagName("a");
+
+                    // Generate the list of pages and display them
+                    var pageList = "";
+                    for (var i = 0; i < links.length; i++) {
+                        var link = links[i];
+                        var page = link.getAttribute("href");
+                        page = page.replace("/pages/", "");
+                        if (page.endsWith(".html")) {
+                            // Create the full URL
+                            var fullUrl = hostname + '/pages/' + page;
+                            
+                            // Add the list item
+                            pageList += "<li><a href='" + fullUrl + "'>" + page + "</a></li>";
+                        }   
+                    }
+
+                    // Append the page list to the HTML body
+                    document.getElementById("pageList").innerHTML = pageList;
+                })
+                .catch(error => {
+                    console.error("Error fetching page list:", error);
+                });
+        </script>
+        <!-- END: Dynamically generate list of pages -->
+    </ul>
+</body>
+</html>
