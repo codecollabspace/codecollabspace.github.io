@@ -6,35 +6,9 @@
 <body>
     <h1>Available pages</h1>
     <ul id="pageList">
-        <script>
-            var hostname = window.location.origin;
-
-            fetch(hostname + '/pages/')
-                .then(response => response.text())
-                .then(data => {
-                    var parser = new DOMParser();
-                    var htmlDoc = parser.parseFromString(data, "text/html");
-
-                    var links = htmlDoc.getElementsByTagName("a");
-
-                    var pageList = "";
-                    for (var i = 0; i < links.length; i++) {
-                        var link = links[i];
-                        var page = link.getAttribute("href");
-                        page = page.replace("/pages/", "");
-                        if (page.endsWith(".html")) {
-                            var fullUrl = hostname + '/pages/' + page;
-                            
-                            pageList += "<li><a href='" + fullUrl + "'>" + page + "</a></li>";
-                        }   
-                    }
-
-                    document.getElementById("pageList").innerHTML = pageList;
-                })
-                .catch(error => {
-                    console.error("Error fetching page list:", error);
-                });
-        </script>
+       
+        <!-- Display all the pages manually (for now)-->
+        <li><a href="pages/chatgpt_diploma_citation_extension.html">ChatGPT Citation Generator</a></li>
     </ul>
 </body>
 </html>
